@@ -10,7 +10,24 @@ const translations = {
         labelChess: "Chessboard (D8): ",
         labelEucl: "Euclidean (De): ",
         hNeighbors: "3. Neighbors Analysis",
-        neighborDesc: "Select a type to see neighbors of Point P."
+        neighborDesc: "Select a type to see neighbors of Point P.",
+        hLab: "4. Geometric Transformation Lab",
+        btn2x2: "2x2",
+        btn3x3: "3x3",
+        btn4x4: "4x4",
+        btnRandomLab: "Fill Random",
+        btnSeqLab: "Fill 1, 2, 3...",
+        labelOriginal: "Original",
+        labelResult: "Result",
+        btnUp: "↑ Up",
+        btnDown: "↓ Down",
+        btnLeft: "← Left",
+        btnRight: "Right →",
+        btnCW: "↻ Rotate CW",
+        btnCCW: "↺ Rotate CCW",
+        btnFlipH: "↔ Flip Horizontal",
+        btnFlipV: "↕ Flip Vertical",
+        btnResetRes: "Reset Result"
     },
     ar: {
         title: "معالجة الصور الرقمية",
@@ -23,9 +40,64 @@ const translations = {
         labelChess: "مسافة الشطرنج (D8): ",
         labelEucl: "المسافة الإقليدية (De): ",
         hNeighbors: "٣. تحليل الجيران",
-        neighborDesc: "اختر نوعاً لرؤية جيران النقطة P."
+        neighborDesc: "اختر نوعاً لرؤية جيران النقطة P.",
+        hLab: "٤. التحويلات الهندسية",
+        btn2x2: "٢×٢",
+        btn3x3: "٣×٣",
+        btn4x4: "٤×٤",
+        btnRandomLab: "تعبئة عشوائية",
+        btnSeqLab: "تعبئة ١، ٢، ٣...",
+        labelOriginal: "الأصلية",
+        labelResult: "النتيجة",
+        btnUp: "↑ للأعلى",
+        btnDown: "↓ للأسفل",
+        btnLeft: "لليمين →", // Arrow flipped for RTL
+        btnRight: "← لليسار", // Arrow flipped for RTL 
+        btnCW: "↺ تدوير عكس الساعة",
+        btnCCW: "↻ تدوير مع الساعة",
+        btnFlipH: "↔ انعكاس أفقي",
+        btnFlipV: "↕ انعكاس عمودي",
+        btnResetRes: "إعادة ضبط النتيجة"
     }
 };
+
+function setLanguage(lang) {
+    document.documentElement.lang = lang;
+    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+    const t = translations[lang];
+    
+    // Section 1, 2, 3
+    document.getElementById('main-title').innerText = t.title;
+    document.getElementById('h-setup').innerText = t.hSetup;
+    document.getElementById('btn-random').innerText = t.btnRandom;
+    document.getElementById('btn-100').innerText = t.btn100;
+    document.getElementById('h-distance').innerText = t.hDistance;
+    document.getElementById('btn-calc').innerText = t.btnCalc;
+    document.getElementById('label-city').firstChild.textContent = t.labelCity;
+    document.getElementById('label-chess').firstChild.textContent = t.labelChess;
+    document.getElementById('label-eucl').firstChild.textContent = t.labelEucl;
+    document.getElementById('h-neighbors').innerText = t.hNeighbors;
+    document.getElementById('neighbor-desc').innerText = t.neighborDesc;
+
+    // Section 4
+    document.getElementById('h-lab').innerText = t.hLab;
+    document.getElementById('btn-2x2').innerText = t.btn2x2;
+    document.getElementById('btn-3x3').innerText = t.btn3x3;
+    document.getElementById('btn-4x4').innerText = t.btn4x4;
+    document.getElementById('btn-random-lab').innerText = t.btnRandomLab;
+    document.getElementById('btn-seq-lab').innerText = t.btnSeqLab;
+    document.getElementById('label-original').innerText = t.labelOriginal;
+    document.getElementById('label-result').innerText = t.labelResult;
+    document.getElementById('btn-up').innerText = t.btnUp;
+    document.getElementById('btn-down').innerText = t.btnDown;
+    document.getElementById('btn-left').innerText = t.btnLeft;
+    document.getElementById('btn-right').innerText = t.btnRight;
+    document.getElementById('btn-cw').innerText = t.btnCW;
+    document.getElementById('btn-ccw').innerText = t.btnCCW;
+    document.getElementById('btn-flip-h').innerText = t.btnFlipH;
+    document.getElementById('btn-flip-v').innerText = t.btnFlipV;
+    document.getElementById('btn-reset-res').innerText = t.btnResetRes;
+}
 
 const container = document.getElementById('matrix-10-container');
 
@@ -154,22 +226,175 @@ function fill1to100() {
     }
 }
 
-function setLanguage(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
-    const t = translations[lang];
-    
-    document.getElementById('main-title').innerText = t.title;
-    document.getElementById('h-setup').innerText = t.hSetup;
-    document.getElementById('btn-random').innerText = t.btnRandom;
-    document.getElementById('btn-100').innerText = t.btn100;
-    document.getElementById('h-distance').innerText = t.hDistance;
-    document.getElementById('btn-calc').innerText = t.btnCalc;
-    document.getElementById('label-city').firstChild.textContent = t.labelCity;
-    document.getElementById('label-chess').firstChild.textContent = t.labelChess;
-    document.getElementById('label-eucl').firstChild.textContent = t.labelEucl;
-    document.getElementById('h-neighbors').innerText = t.hNeighbors;
-    document.getElementById('neighbor-desc').innerText = t.neighborDesc;
-}
 
 initGrid();
+
+// Add these to your translations object first!
+translations.en.hGeometric = "4. Geometric Transformations (3x3)";
+translations.ar.hGeometric = "٤. التحويلات الهندسية (٣×٣)";
+
+// Logic to get the 3x3 values based on current P(x,y)
+function getSubMatrix() {
+    const px = parseInt(document.getElementById('px').value);
+    const py = parseInt(document.getElementById('py').value);
+    let matrix = [];
+    for (let r = -1; r <= 1; r++) {
+        let row = [];
+        for (let c = -1; c <= 1; c++) {
+            const el = document.getElementById(`p-${py + r}-${px + c}`);
+            row.push(el ? el.value : "0");
+        }
+        matrix.push(row);
+    }
+    return matrix;
+}
+
+// Render the small 3x3 result
+function renderSubMatrix(matrix) {
+    const container = document.getElementById('sub-matrix-grid');
+    container.innerHTML = '';
+    matrix.forEach(row => {
+        row.forEach(val => {
+            const div = document.createElement('div');
+            div.className = 'sub-cell';
+            div.innerText = val;
+            container.appendChild(div);
+        });
+    });
+}
+
+// 1. Translation: Updates P(x,y) coordinates
+let currentLabSize = 3;
+let labMatrixData = [];
+
+// Initialize the Lab Matrix
+function initLabMatrix(size) {
+    currentLabSize = size;
+    labMatrixData = Array(size).fill().map(() => Array(size).fill(0));
+    renderLab();
+}
+
+// Fill Logic
+function fillLab(type) {
+    let count = 1;
+    for (let r = 0; r < currentLabSize; r++) {
+        for (let c = 0; c < currentLabSize; c++) {
+            labMatrixData[r][c] = (type === 'random') ? Math.floor(Math.random() * 99) : count++;
+        }
+    }
+    renderLab();
+}
+
+// Render both Original and Result (initially same)
+function renderLab(resultMatrix = null) {
+    const origContainer = document.getElementById('lab-original-grid');
+    const resContainer = document.getElementById('lab-result-grid');
+    
+    [origContainer, resContainer].forEach(el => {
+        el.className = `lab-grid grid-size-${currentLabSize}`;
+        el.innerHTML = '';
+    });
+
+    const displayMatrix = resultMatrix || labMatrixData;
+
+    for (let r = 0; r < currentLabSize; r++) {
+        for (let c = 0; c < currentLabSize; c++) {
+            // Original
+            let divO = document.createElement('div');
+            divO.className = 'lab-cell';
+            divO.innerText = labMatrixData[r][c];
+            origContainer.appendChild(divO);
+            // Result
+            let divR = document.createElement('div');
+            divR.className = 'lab-cell';
+            divR.innerText = displayMatrix[r][c];
+            resContainer.appendChild(divR);
+        }
+    }
+}
+
+// Transformation Operations
+let labData = [];      // The Original (Fixed until reset)
+let resultData = [];   // The Result (Chains operations)
+let lSize = 3;
+
+function initLabMatrix(size) {
+    lSize = size;
+    labData = Array(size).fill().map(() => Array(size).fill(0));
+    resultData = Array(size).fill().map(() => Array(size).fill(0));
+    renderLabAll();
+}
+
+function fillLab(type) {
+    let count = 1;
+    for (let r = 0; r < lSize; r++) {
+        for (let c = 0; c < lSize; c++) {
+            labData[r][c] = (type === 'random') ? Math.floor(Math.random() * 99) : count++;
+        }
+    }
+    resetResult(); // When filling original, reset the result to match
+}
+
+function resetResult() {
+    resultData = labData.map(row => [...row]); // Copy original to result
+    renderLabAll();
+}
+
+function renderLabAll() {
+    renderSpecificGrid('lab-original-grid', labData);
+    renderSpecificGrid('lab-result-grid', resultData);
+}
+
+function renderSpecificGrid(id, data) {
+    const grid = document.getElementById(id);
+    grid.className = `lab-grid grid-size-${lSize}`;
+    grid.innerHTML = '';
+    for (let r = 0; r < lSize; r++) {
+        for (let c = 0; c < lSize; c++) {
+            let div = document.createElement('div');
+            div.className = 'lab-cell';
+            div.innerText = data[r][c];
+            grid.appendChild(div);
+        }
+    }
+}
+
+function applyOp(op) {
+    let nextData = Array(lSize).fill().map(() => Array(lSize).fill(0));
+
+    for (let r = 0; r < lSize; r++) {
+        for (let c = 0; c < lSize; c++) {
+            let val = resultData[r][c];
+            if (val === 0) continue;
+
+            let nr = r, nc = c;
+            
+            // Standard Math: Right is always +1, Left is always -1
+            // This stays consistent regardless of the language direction
+            if (op === 'right') nc = c + 1;
+            if (op === 'left')  nc = c - 1;
+            if (op === 'down')  nr = r + 1;
+            if (op === 'up')    nr = r - 1;
+
+            // Rotation & Flip logic
+            if (op === 'CW') {
+                nextData[c][lSize - 1 - r] = val;
+            } else if (op === 'CCW') {
+                nextData[lSize - 1 - c][r] = val;
+            } else if (op === 'H') {
+                nextData[r][lSize - 1 - c] = val;
+            } else if (op === 'V') {
+                nextData[lSize - 1 - r][c] = val;
+            } else {
+                // Check bounds for movements
+                if (nr >= 0 && nr < lSize && nc >= 0 && nc < lSize) {
+                    nextData[nr][nc] = val;
+                }
+            }
+        }
+    }
+    resultData = nextData;
+    renderLabAll();
+}
+
+initLabMatrix(3);

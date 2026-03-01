@@ -103,3 +103,41 @@ button:hover { opacity: 0.9; transform: translateY(-1px); }
 [dir="rtl"] { text-align: right; }
 [dir="rtl"] .results-box { border-left: none; border-right: 5px solid var(--primary); }
 input, .grid-10-with-labels { direction: ltr !important; }
+/* Geometric Section Styles */
+.lab-setup { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: #f1f5f9; padding: 15px; border-radius: 8px; }
+.comparison-container { display: flex; align-items: center; justify-content: space-around; margin: 20px 0; gap: 10px; }
+.lab-grid { display: grid; gap: 5px; background: #e2e8f0; padding: 10px; border-radius: 4px; }
+.lab-cell { width: 45px; height: 45px; background: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: bold; }
+.transform-arrow { font-size: 2rem; color: var(--primary); }
+.geo-ops { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+
+/* Dynamic Grid Classes */
+.grid-size-2 { grid-template-columns: repeat(2, 45px); }
+.grid-size-3 { grid-template-columns: repeat(3, 45px); }
+.grid-size-4 { grid-template-columns: repeat(4, 45px); }
+
+.comparison-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
+.matrix-box { text-align: center; }
+.lab-grid { display: grid; gap: 5px; background: #e2e8f0; padding: 10px; border-radius: 4px; border: 2px solid var(--secondary); }
+.lab-cell { width: 45px; height: 45px; background: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
+.transform-arrow { font-size: 2rem; color: var(--primary); font-weight: bold; }
+.op-group { display: flex; flex-direction: column; align-items: center; gap: 5px; margin: 10px; }
+.op-group.row { flex-direction: row; justify-content: center; flex-wrap: wrap; }
+.side-btns { display: flex; gap: 5px; }
+
+/* Grid Sizing Classes */
+.grid-size-2 { grid-template-columns: repeat(2, 45px); }
+.grid-size-3 { grid-template-columns: repeat(3, 45px); }
+.grid-size-4 { grid-template-columns: repeat(4, 45px); }
+
+/* Fix arrow direction in Arabic */
+[dir="rtl"] .transform-arrow {
+    transform: scaleX(-1);
+    display: inline-block;
+}
+
+/* Ensure matrix numbers always stay LTR for readability */
+.lab-cell, input[type="number"] {
+    direction: ltr !important;
+}
+

@@ -68,7 +68,55 @@
                 <button class="reset-btn" onclick="clearHighlights()">Clear All</button>
             </div>
         </section>
+
+        <section class="lab-section">
+        <section class="lab-section">
+            <h2 id="h-lab">4. Geometric Transformation Lab</h2>
+            <div class="lab-setup">
+                <div class="size-selector">
+                    <button id="btn-2x2" onclick="initLabMatrix(2)">2x2</button>
+                    <button id="btn-3x3" onclick="initLabMatrix(3)">3x3</button>
+                    <button id="btn-4x4" onclick="initLabMatrix(4)">4x4</button>
+                </div>
+                <div class="fill-controls">
+                    <button id="btn-random-lab" class="reset-btn" onclick="fillLab('random')">Fill Random</button>
+                    <button id="btn-seq-lab" class="reset-btn" onclick="fillLab('seq')">Fill 1, 2, 3...</button>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="matrix-box">
+                    <h4 id="label-original">Original</h4>
+                    <div id="lab-original-grid" class="lab-grid"></div>
+                </div>
+                <div class="transform-arrow">➔</div>
+                <div class="matrix-box">
+                    <h4 id="label-result">Result</h4>
+                    <div id="lab-result-grid" class="lab-grid"></div>
+                </div>
+            </div>
+
+            <div class="geo-ops">
+                <div class="op-group">
+                    <button id="btn-up" onclick="applyOp('up')">↑ Up</button>
+                    <div class="side-btns">
+                        <button id="btn-left" onclick="applyOp('left')">← Left</button>
+                        <button id="btn-right" onclick="applyOp('right')">Right →</button>
+                    </div>
+                    <button id="btn-down" onclick="applyOp('down')">↓ Down</button>
+                </div>
+                
+                <div class="op-group row">
+                    <button id="btn-cw" onclick="applyOp('CW')">↻ Rotate CW</button>
+                    <button id="btn-ccw" onclick="applyOp('CCW')">↺ Rotate CCW</button>
+                    <button id="btn-flip-h" onclick="applyOp('H')">↔ Flip Horizontal</button>
+                    <button id="btn-flip-v" onclick="applyOp('V')">↕ Flip Vertical</button>
+                    <button id="btn-reset-res" class="reset-btn" onclick="resetResult()">Reset Result</button>
+                </div>
+            </div>
+        </section>       
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
