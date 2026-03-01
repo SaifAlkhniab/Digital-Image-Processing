@@ -27,24 +27,34 @@
         </section>
 
         <section class="distance-section">
-            <h2 id="h-distance">2. Distance Calculator</h2>
+            <h2 id="h-distance">2. Distance Calculator & Visualizer</h2>
             <div class="calc-inputs">
                 <div class="point-group">
-                    <span>P(x,y):</span>
-                    <input type="number" id="px" value="2" min="0" max="9" onchange="highlightNeighbors()">
-                    <input type="number" id="py" value="2" min="0" max="9" onchange="highlightNeighbors()">
+                    <span style="color:var(--point-p); font-weight:bold">P(x,y):</span>
+                    <input type="number" id="px" value="2" min="0" max="9">
+                    <input type="number" id="py" value="2" min="0" max="9">
                 </div>
                 <div class="point-group">
-                    <span>Q(x,y):</span>
-                    <input type="number" id="qx" value="4" min="0" max="9">
+                    <span style="color:var(--point-q); font-weight:bold">Q(x,y):</span>
+                    <input type="number" id="qx" value="5" min="0" max="9">
                     <input type="number" id="qy" value="4" min="0" max="9">
                 </div>
-                <button id="btn-calc" onclick="calculateDistances()">Calculate</button>
+                <button id="btn-calc" onclick="calculateDistances()">Calculate & Visualize</button>
             </div>
+            
             <div id="results" class="results-box">
-                <p id="label-city">City-block (D4): <span id="res-city">--</span></p>
-                <p id="label-chess">Chessboard (D8): <span id="res-chess">--</span></p>
-                <p id="label-eucl">Euclidean (De): <span id="res-eucl">--</span></p>
+                <div class="res-item">
+                    <p id="label-city">City-block (D4): <span id="res-city">--</span></p>
+                    <small id="math-city" class="math-explain"></small>
+                </div>
+                <div class="res-item">
+                    <p id="label-chess">Chessboard (D8): <span id="res-chess">--</span></p>
+                    <small id="math-chess" class="math-explain"></small>
+                </div>
+                <div class="res-item">
+                    <p id="label-eucl">Euclidean (De): <span id="res-eucl">--</span></p>
+                    <small id="math-eucl" class="math-explain"></small>
+                </div>
             </div>
         </section>
 
@@ -55,7 +65,7 @@
                 <button onclick="highlightNeighbors(4)">4-Neighbors (A)</button>
                 <button onclick="highlightNeighbors('diag')">Diagonal (B)</button>
                 <button onclick="highlightNeighbors(8)">8-Neighbors (C)</button>
-                <button class="reset-btn" onclick="clearHighlights()">Clear</button>
+                <button class="reset-btn" onclick="clearHighlights()">Clear All</button>
             </div>
         </section>
     </div>
