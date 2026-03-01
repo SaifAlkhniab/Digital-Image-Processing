@@ -1,87 +1,89 @@
 :root {
     --primary: #2563eb;
     --secondary: #64748b;
-    --highlight: #fef08a;
     --bg: #f8fafc;
+    --point-p: #3b82f6;
+    --neighbor-bg: #dcfce7;
+    --border: #cbd5e1;
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--bg);
     margin: 0;
-    padding: 10px;
-    display: flex;
-    justify-content: center;
+    padding: 15px;
 }
 
 .container {
-    max-width: 600px;
-    width: 100%;
+    max-width: 800px;
+    margin: auto;
     background: white;
-    padding: 20px;
+    padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
-h1, h2 { text-align: center; color: #1e293b; }
+h1 { color: #1e293b; text-align: center; margin-bottom: 30px; }
+h2 { border-bottom: 2px solid var(--bg); padding-bottom: 10px; color: #334155; font-size: 1.25rem; }
 
-/* Grid Styling */
-.grid-10 {
+/* Language Switcher */
+.lang-switcher { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 10px; }
+.lang-switcher button { background: #f1f5f9; color: #475569; border: 1px solid var(--border); padding: 5px 12px; font-size: 0.8rem; cursor: pointer; }
+
+/* Matrix Styling */
+.matrix-scroll-wrapper { overflow-x: auto; padding: 10px 0; }
+.grid-10-with-labels {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: 40px repeat(10, 1fr);
     gap: 2px;
-    margin-bottom: 15px;
-    overflow-x: auto; /* Scrollable on small phones */
+    min-width: 500px;
 }
 
-.grid-3 {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5px;
-    max-width: 150px;
-    margin: 10px auto;
+.label-cell {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--secondary);
+    background: #f1f5f9;
+    font-size: 0.8rem;
 }
 
 input[type="number"] {
     width: 100%;
-    padding: 5px;
+    height: 40px;
+    box-sizing: border-box;
     text-align: center;
-    border: 1px solid #cbd5e1;
-    border-radius: 4px;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
     -moz-appearance: textfield;
 }
 
-input::-webkit-outer-spin-button, input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-}
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; }
 
-/* Controls */
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    justify-content: center;
-    margin-bottom: 20px;
-}
+/* Highlights */
+.point-p { background-color: var(--point-p) !important; color: white !important; font-weight: bold; }
+.neighbor-active { background-color: var(--neighbor-highlight) !important; border: 2px solid #22c55e !important; }
+:root { --neighbor-highlight: #dcfce7; }
 
-button {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 10px 15px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-}
+/* Sections */
+section { margin-bottom: 40px; }
+.matrix-btns { margin-top: 15px; display: flex; gap: 10px; }
 
-button:hover { opacity: 0.9; }
+.calc-inputs { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; background: #f8fafc; padding: 15px; border-radius: 8px; }
+.point-group { display: flex; align-items: center; gap: 5px; }
+.point-group input { width: 60px; height: 35px; }
+
+.results-box { margin-top: 15px; padding: 15px; background: #eff6ff; border-radius: 8px; border-left: 5px solid var(--primary); }
+.results-box p { margin: 5px 0; font-weight: 500; }
+
+.neighbor-controls { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 15px; }
+button { background: var(--primary); color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
+button:hover { opacity: 0.9; transform: translateY(-1px); }
 .reset-btn { background: var(--secondary); }
 
-.results-box {
-    background: #f1f5f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-top: 10px;
-}
-
-.active-pixel { background-color: var(--highlight) !important; }
+/* RTL Support */
+[dir="rtl"] { text-align: right; }
+[dir="rtl"] .results-box { border-left: none; border-right: 5px solid var(--primary); }
+input, .grid-10-with-labels { direction: ltr !important; }
