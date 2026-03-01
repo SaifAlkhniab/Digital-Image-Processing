@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DIP Quiz Sandbox</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Digital Image Processing Quiz</h1>
+        
+        <section class="setup-section">
+            <h2>1. Fill 10x10 Matrix</h2>
+            <p>Enter pixel values for the source image:</p>
+            <div id="matrix-10-container" class="grid-10"></div>
+            <button onclick="fillRandom()">Fill Random Values</button>
+        </section>
+
+        <section class="transformation-section">
+            <h2>2. Transform 3x3 Sub-Matrix</h2>
+            <div class="controls">
+                <button onclick="moveRight()">Move 1 Right [cite: 60]</button>
+                <button onclick="moveDown()">Move 2 Down [cite: 61]</button>
+                <button onclick="rotateRight()">Rotate 90° Right </button>
+                <button class="reset-btn" onclick="resetWindow()">Reset Window</button>
+            </div>
+            
+            <div class="sub-matrix-display">
+                <h3>Current 3x3 Window (8-Neighbors C) [cite: 58, 59]</h3>
+                <div id="matrix-3-container" class="grid-3"></div>
+            </div>
+        </section>
+
+        <section class="distance-section">
+            <h2>3. Distance Calculator </h2>
+            <div class="calc-inputs">
+                <label>Point P (x,y): <input type="number" id="px" value="0"> <input type="number" id="py" value="0"></label>
+                <label>Point Q (x,y): <input type="number" id="qx" value="1"> <input type="number" id="qy" value="1"></label>
+                <button onclick="calculateDistances()">Calculate</button>
+            </div>
+            <div id="results" class="results-box">
+                <p>City-block (D4): <span id="res-city">--</span> [cite: 5]</p>
+                <p>Chessboard (D8): <span id="res-chess">--</span> [cite: 21]</p>
+                <p>Euclidean (De): <span id="res-eucl">--</span> [cite: 38]</p>
+            </div>
+        </section>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
