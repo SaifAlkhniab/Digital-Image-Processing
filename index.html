@@ -114,7 +114,55 @@
                     <button id="btn-reset-res" class="reset-btn" onclick="resetResult()">Reset Result</button>
                 </div>
             </div>
-        </section>       
+        </section>
+        
+        <section class="point-processing-section">
+            <h2 id="h-point">5. Point Processing (Intensity Transformations)</h2>
+            <div class="point-controls">
+                <div class="slider-group">
+                    <label id="label-bright">Brightness: S = r + b</label>
+                    <div class="control-row">
+                        <input type="range" id="input-bright" min="-255" max="255" value="0" oninput="applyPointProcessing()">
+                        <span id="val-bright" class="slider-val">0</span>
+                    </div>
+                </div>
+                
+                <div class="slider-group">
+                    <label id="label-contrast">Contrast: S = c * r</label>
+                    <div class="control-row">
+                        <input type="range" id="input-contrast" min="0" max="10" step="0.1" value="1" oninput="applyPointProcessing()">
+                        <span id="val-contrast" class="slider-val">1.0</span>
+                    </div>
+                </div>
+
+                <div class="slider-group">
+                    <label id="label-thresh">Threshold: S = 255 { if } r > T { else } S = 0</label>
+                    <div class="control-row">
+                        <input type="range" id="input-thresh" min="0" max="255" value="128" oninput="applyPointProcessing()">
+                        <span id="val-thresh" class="slider-val">128</span>
+                    </div>
+                </div>
+
+                <div class="point-btns">
+                    <button id="btn-fill-random-point" onclick="fillPointLab('random')">Fill Random (0-255)</button>
+                    <button id="btn-fill-seq-point" onclick="fillPointLab('seq')">Fill Sequential</button>
+                    <button id="btn-negative" onclick="applyNegative()">$s = 255 - r$ (Negative)</button>
+                    <button id="btn-reset-point" class="reset-btn" onclick="resetPointLab()">Reset</button>
+                </div>
+            </div>
+
+            <div class="comparison-container">
+                <div class="matrix-box">
+                    <h4 id="label-point-orig">Input (r)</h4>
+                    <div id="point-orig-grid" class="lab-grid grid-5x4"></div>
+                </div>
+                <div class="transform-arrow">➔</div>
+                <div class="matrix-box">
+                    <h4 id="label-point-res">Output (s)</h4>
+                    <div id="point-res-grid" class="lab-grid grid-5x4"></div>
+                </div>
+            </div>
+        </section>
     </div>
 
     <script src="script.js"></script>

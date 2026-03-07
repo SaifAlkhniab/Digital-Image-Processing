@@ -27,7 +27,18 @@ const translations = {
         btnCCW: "↺ Rotate CCW",
         btnFlipH: "↔ Flip Horizontal",
         btnFlipV: "↕ Flip Vertical",
-        btnResetRes: "Reset Result"
+        btnResetRes: "Reset Result",
+        // ... (keep existing)
+        hPoint: "5. Point Processing (Intensity Transformations)",
+        labelBright: "Brightness: s = r + b",
+        labelContrast: "Contrast: s = a · r",
+        labelThresh: "Threshold: s = 255 if r > T else 0",
+        btnFillRandomPoint: "Fill Random (0-255)",
+        btnFillSeqPoint: "Fill Sequential",
+        btnNegative: "s = 255 - r (Negative)",
+        btnResetPoint: "Reset",
+        labelPointOrig: "Input (r)",
+        labelPointRes: "Output (s)"
     },
     ar: {
         title: "معالجة الصور الرقمية",
@@ -57,7 +68,18 @@ const translations = {
         btnCCW: "↻ تدوير مع الساعة",
         btnFlipH: "↔ انعكاس أفقي",
         btnFlipV: "↕ انعكاس عمودي",
-        btnResetRes: "إعادة ضبط النتيجة"
+        btnResetRes: "إعادة ضبط النتيجة",
+        // ... (keep existing)
+        hPoint: "٥. معالجة النقطة (تحويلات الكثافة الضوئية)",
+        labelBright: "السطوع: s = r + b",
+        labelContrast: "التباين: s = a · r",
+        labelThresh: "العتبة: s = 255 if r > T else 0",
+        btnFillRandomPoint: "تعبئة عشوائية (٠-٢٥٥)",
+        btnFillSeqPoint: "تعبئة تسلسلية",
+        btnNegative: "s = 255 - r (الصورة السالبة)",
+        btnResetPoint: "إعادة ضبط",
+        labelPointOrig: "المدخلات (r)",
+        labelPointRes: "المخرجات (s)"
     }
 };
 
@@ -97,6 +119,20 @@ function setLanguage(lang) {
     document.getElementById('btn-flip-h').innerText = t.btnFlipH;
     document.getElementById('btn-flip-v').innerText = t.btnFlipV;
     document.getElementById('btn-reset-res').innerText = t.btnResetRes;
+    // Section 5 Translations
+    document.getElementById('h-point').innerText = t.hPoint;
+    document.getElementById('label-bright').innerText = t.labelBright;
+    document.getElementById('label-contrast').innerText = t.labelContrast;
+    document.getElementById('label-thresh').innerText = t.labelThresh;
+    
+    // Select buttons by their text or add IDs to them in HTML
+    // For safety, I recommend adding IDs to the buttons in your index.html
+    document.getElementById('btn-fill-random-point').innerText = t.btnFillRandomPoint;
+    document.getElementById('btn-fill-seq-point').innerText = t.btnFillSeqPoint;
+    document.getElementById('btn-negative').innerText = t.btnNegative;
+    document.getElementById('btn-reset-point').innerText = t.btnResetPoint;
+    document.getElementById('label-point-orig').innerText = t.labelPointOrig;
+    document.getElementById('label-point-res').innerText = t.labelPointRes;
 }
 
 const container = document.getElementById('matrix-10-container');
@@ -398,3 +434,91 @@ function applyOp(op) {
 }
 
 initLabMatrix(3);
+
+// Point Processing logic
+let pointData = []; // 5x4 Array
+const COLS = 5;
+const ROWS = 4;
+
+function initPointLab() {
+    pointData = Array(ROWS).fill().map(() => Array(COLS).fill(0));
+    renderPointLab(pointData);
+}
+
+function fillPointLab(type) {
+    let count = 1;
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            pointData[r][c] = (type === 'random') ? Math.floor(Math.random() * 256) : count++;
+        }
+    }
+    applyPointProcessing();
+}
+
+function applyPointProcessing() {
+    const b = parseInt(document.getElementById('input-bright').value);
+    const a = parseFloat(document.getElementById('input-contrast').value);
+    const T = parseInt(document.getElementById('input-thresh').value);
+
+    // Update labels
+    document.getElementById('val-bright').innerText = b;
+    document.getElementById('val-contrast').innerText = a.toFixed(1);
+    document.getElementById('val-thresh').innerText = T;
+
+    let processed = pointData.map(row => row.map(r => {
+        // Brightness & Contrast
+        let s = (a * r) + b;
+        
+        // Apply Threshold (Binary transformation)
+        // If slider is moved, it forces thresholding
+        if (T !== 128 || document.activeElement.id === 'input-thresh') {
+            s = (s > T) ? 255 : 0;
+        }
+
+        // Clamp 0-255
+        return Math.min(255, Math.max(0, Math.round(s)));
+    }));
+
+    renderPointLab(processed);
+}
+
+function applyNegative() {
+    let processed = pointData.map(row => row.map(r => 255 - r));
+    renderPointLab(processed);
+}
+
+function renderPointLab(displayData) {
+    const origGrid = document.getElementById('point-orig-grid');
+    const resGrid = document.getElementById('point-res-grid');
+    
+    [origGrid, resGrid].forEach(g => g.innerHTML = '');
+
+    for (let r = 0; r < ROWS; r++) {
+        for (let c = 0; c < COLS; c++) {
+            // Original Cell
+            let divO = document.createElement('div');
+            divO.className = 'lab-cell';
+            divO.innerText = pointData[r][c];
+            origGrid.appendChild(divO);
+
+            // Processed Cell
+            let divR = document.createElement('div');
+            divR.className = 'lab-cell';
+            divR.innerText = displayData[r][c];
+            // Visual feedback: color cells based on intensity
+            divR.style.backgroundColor = `rgb(${displayData[r][c]},${displayData[r][c]},${displayData[r][c]})`;
+            divR.style.color = displayData[r][c] > 128 ? 'black' : 'white';
+            resGrid.appendChild(divR);
+        }
+    }
+}
+
+function resetPointLab() {
+    document.getElementById('input-bright').value = 0;
+    document.getElementById('input-contrast').value = 1;
+    document.getElementById('input-thresh').value = 128;
+    applyPointProcessing();
+}
+
+// Initialize on load
+initPointLab();

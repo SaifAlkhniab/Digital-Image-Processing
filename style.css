@@ -141,3 +141,44 @@ input, .grid-10-with-labels { direction: ltr !important; }
     direction: ltr !important;
 }
 
+/* Intensty enhancement section */
+
+.point-controls {
+    background: #f1f5f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+.slider-group {
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.slider-group label {
+    font-weight: bold;
+    color: var(--secondary);
+    font-size: 0.9rem;
+}
+.point-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+input[type="range"] {
+    width: 100%;
+    cursor: pointer;
+}
+
+.control-row { display: flex; align-items: center; gap: 15px; }
+.slider-val { min-width: 40px; font-weight: bold; color: var(--primary); }
+
+/* 5 Columns x 4 Rows */
+.grid-5x4 {
+    display: grid;
+    grid-template-columns: repeat(5, 45px);
+    grid-template-rows: repeat(4, 45px);
+    gap: 5px;
+}
+
+.point-btns { margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
