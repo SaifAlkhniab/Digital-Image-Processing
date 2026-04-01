@@ -2,10 +2,10 @@
     --primary: #2563eb;
     --secondary: #64748b;
     --bg: #f8fafc;
-    --point-p: #3b82f6;      /* Blue */
-    --point-q: #ef4444;      /* Red */
-    --path-color: #fef08a;   /* Yellow */
-    --triangle-bg: #dcfce7;  /* Light Green */
+    --point-p: #3b82f6;      
+    --point-q: #ef4444;      
+    --path-color: #fef08a;   
+    --triangle-bg: #dcfce7;  
     --neighbor-highlight: #dcfce7;
     --border: #cbd5e1;
 }
@@ -18,7 +18,7 @@ body {
 }
 
 .container {
-    max-width: 800px;
+    max-width: 900px;
     margin: auto;
     background: white;
     padding: 25px;
@@ -26,159 +26,178 @@ body {
     box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
 }
 
-h1 { color: #1e293b; text-align: center; margin-bottom: 30px; }
-h2 { border-bottom: 2px solid var(--bg); padding-bottom: 10px; color: #334155; font-size: 1.25rem; margin-top: 30px; }
+h1 { color: #1e293b; text-align: center; margin-bottom: 20px; }
+h2 { border-bottom: 2px solid var(--bg); padding-bottom: 10px; color: #334155; font-size: 1.25rem; margin-top: 30px;}
+h4 { color: #334155; margin-bottom: 10px; }
 
-/* Language Switcher */
-.lang-switcher { display: flex; justify-content: flex-end; gap: 8px; margin-bottom: 10px; }
-.lang-switcher button { background: #f1f5f9; color: #475569; border: 1px solid var(--border); padding: 5px 12px; font-size: 0.8rem; cursor: pointer; border-radius: 4px; }
-
-/* Matrix Styling */
-.matrix-scroll-wrapper { overflow-x: auto; padding: 10px 0; border: 1px solid #f1f5f9; border-radius: 8px; margin-bottom: 10px; }
-.grid-10-with-labels {
-    display: grid;
-    grid-template-columns: 40px repeat(10, 1fr);
-    gap: 2px;
-    min-width: 550px;
+/* Global Button Styles (Optimized for Mobile Touch) */
+button { 
+    background: var(--primary); 
+    color: white; 
+    border: none; 
+    padding: 12px 16px; /* Larger padding for touch targets */
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: 500; 
+    font-size: 0.95rem;
+    min-height: 44px; /* Minimum accessible height */
+    transition: background 0.2s; 
 }
+button:hover { background: #1d4ed8; }
 
-.label-cell {
-    height: 40px;
+/* --- TAB NAVIGATION STYLES --- */
+.tab-nav {
     display: flex;
-    align-items: center;
     justify-content: center;
-    font-weight: bold;
-    color: var(--secondary);
-    background: #f1f5f9;
-    font-size: 0.8rem;
+    gap: 10px;
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 15px;
 }
+.tab-btn { background: #e2e8f0; color: var(--secondary); font-weight: bold; font-size: 1rem; }
+.tab-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 6px rgba(37, 99, 235, 0.2); }
+.view-section { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-input[type="number"] {
-    width: 100%;
-    height: 40px;
-    box-sizing: border-box;
-    text-align: center;
-    border: 1px solid var(--border);
-    font-size: 0.9rem;
-    background: white;
-    transition: all 0.2s;
-}
+/* --- SECTION 1: 10x10 MATRIX --- */
+.matrix-scroll-wrapper { overflow-x: auto; padding-bottom: 15px; }
+.grid-10-with-labels { display: grid; grid-template-columns: 30px repeat(10, 40px); grid-template-rows: 30px repeat(10, 40px); gap: 2px; width: fit-content; margin: 0 auto; }
+.cell { background-color: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 0.9rem; font-weight: 600; color: #475569; }
+.row-label, .col-label { display: flex; align-items: center; justify-content: center; font-weight: bold; color: var(--secondary); background: var(--bg); }
+.matrix-btns { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
 
-/* Visualizer Highlights */
-.point-p { background-color: var(--point-p) !important; color: white !important; font-weight: bold; border-color: #1d4ed8 !important; }
-.point-q { background-color: var(--point-q) !important; color: white !important; font-weight: bold; border-color: #b91c1c !important; }
-.path-node { background-color: var(--path-color) !important; border: 1px solid #fde047 !important; }
-.triangle-node { background-color: var(--triangle-bg) !important; border: 1px dashed #16a34a !important; }
-.neighbor-active { background-color: var(--neighbor-highlight) !important; border: 2px solid #22c55e !important; }
+/* --- SECTION 2: RESULTS & FORMULAS --- */
+.calc-inputs { display: flex; flex-wrap: wrap; gap: 20px; margin-bottom: 15px; background: var(--bg); padding: 15px; border-radius: 8px; }
+.point-input { display: flex; align-items: center; gap: 10px; }
+input[type="number"] { width: 50px; padding: 10px 5px; border: 1px solid var(--border); border-radius: 4px; text-align: center; font-size: 1rem;}
+.results { margin-top: 15px; display: flex; flex-direction: column; gap: 12px; background: #e0f2fe; padding: 15px; border-radius: 8px; color: #0369a1; }
+.result-row { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 0.95rem; }
+.formula-label { font-weight: bold; min-width: 140px; }
+.formula-text { font-family: 'Courier New', Courier, monospace; background: rgba(255, 255, 255, 0.6); padding: 4px 8px; border-radius: 4px; color: #0f172a; letter-spacing: 0.5px; }
+.equals { font-weight: bold; color: #0284c7; }
+.res-val { font-weight: bold; font-size: 1.15rem; color: #0284c7; }
+.neighbor-btns { display: flex; gap: 10px; flex-wrap: wrap; }
 
-/* Distance Section */
-.calc-inputs { display: flex; flex-wrap: wrap; gap: 20px; align-items: center; background: #f8fafc; padding: 15px; border-radius: 8px; margin-bottom: 15px; }
-.point-group { display: flex; align-items: center; gap: 8px; }
-.point-group input { width: 60px; height: 35px; border-radius: 4px; }
+/* Highlight Classes */
+.point-p { background-color: var(--point-p) !important; color: white !important; }
+.point-q { background-color: var(--point-q) !important; color: white !important; }
+.path-x, .path-y { background-color: var(--path-color) !important; }
+.triangle-fill { background-color: var(--triangle-bg) !important; }
+.neighbor-hlt { background-color: var(--neighbor-highlight) !important; border: 2px solid #22c55e !important; }
 
-.results-box { padding: 15px; background: #eff6ff; border-radius: 8px; border-left: 5px solid var(--primary); }
-.res-item { margin-bottom: 15px; padding-bottom: 10px; border-bottom: 1px solid #dbeafe; }
-.res-item:last-child { border-bottom: none; margin-bottom: 0; }
-.res-item p { margin: 0; font-weight: 600; color: #1e40af; }
-
-.math-explain {
-    display: block;
-    font-family: 'Courier New', Courier, monospace;
-    color: #475569;
-    margin-top: 6px;
-    background: #ffffff;
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid #e2e8f0;
-    font-size: 0.85rem;
-}
-
-/* Buttons */
-.matrix-btns, .neighbor-controls { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px; }
-button { background: var(--primary); color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: 600; transition: 0.2s; }
-button:hover { opacity: 0.9; transform: translateY(-1px); }
-.reset-btn { background: var(--secondary); }
-
-/* RTL Support */
-[dir="rtl"] { text-align: right; }
-[dir="rtl"] .results-box { border-left: none; border-right: 5px solid var(--primary); }
-input, .grid-10-with-labels { direction: ltr !important; }
-/* Geometric Section Styles */
-.lab-setup { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; background: #f1f5f9; padding: 15px; border-radius: 8px; }
-.comparison-container { display: flex; align-items: center; justify-content: space-around; margin: 20px 0; gap: 10px; }
-.lab-grid { display: grid; gap: 5px; background: #e2e8f0; padding: 10px; border-radius: 4px; }
-.lab-cell { width: 45px; height: 45px; background: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: bold; }
-.transform-arrow { font-size: 2rem; color: var(--primary); }
-.geo-ops { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-
-/* Dynamic Grid Classes */
-.grid-size-2 { grid-template-columns: repeat(2, 45px); }
-.grid-size-3 { grid-template-columns: repeat(3, 45px); }
-.grid-size-4 { grid-template-columns: repeat(4, 45px); }
-
+/* --- SECTION 4: GEOMETRIC LAB --- */
+.geo-controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 15px; background: var(--bg); padding: 10px; border-radius: 8px; }
+.geo-size-btns button, .geo-fill-btns button { background: var(--secondary); }
+.geo-size-btns button.active-size { background: var(--primary); }
 .comparison-container { display: flex; align-items: center; justify-content: center; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
 .matrix-box { text-align: center; }
-.lab-grid { display: grid; gap: 5px; background: #e2e8f0; padding: 10px; border-radius: 4px; border: 2px solid var(--secondary); }
-.lab-cell { width: 45px; height: 45px; background: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.9rem; }
-.transform-arrow { font-size: 2rem; color: var(--primary); font-weight: bold; }
-.op-group { display: flex; flex-direction: column; align-items: center; gap: 5px; margin: 10px; }
-.op-group.row { flex-direction: row; justify-content: center; flex-wrap: wrap; }
-.side-btns { display: flex; gap: 5px; }
+.lab-grid { display: grid; gap: 2px; background: #cbd5e1; padding: 5px; border-radius: 4px; border: 2px solid var(--secondary); margin: 0 auto;}
+.lab-cell { width: 35px; height: 35px; background: white; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 0.85rem; }
+.transform-arrow { font-size: 2rem; color: var(--primary); }
 
-/* Grid Sizing Classes */
-.grid-size-2 { grid-template-columns: repeat(2, 45px); }
-.grid-size-3 { grid-template-columns: repeat(3, 45px); }
-.grid-size-4 { grid-template-columns: repeat(4, 45px); }
-
-/* Fix arrow direction in Arabic */
-[dir="rtl"] .transform-arrow {
-    transform: scaleX(-1);
-    display: inline-block;
+/* REDESIGNED MOBILE GEO CONTROLS */
+.geo-ops { 
+    display: grid; 
+    grid-template-columns: 1fr; 
+    gap: 25px; 
+    background: #f8fafc; 
+    padding: 20px; 
+    border-radius: 8px; 
+    border: 1px solid var(--border); 
+}
+@media(min-width: 600px) {
+    .geo-ops { grid-template-columns: auto 1fr; align-items: center; }
 }
 
-/* Ensure matrix numbers always stay LTR for readability */
-.lab-cell, input[type="number"] {
-    direction: ltr !important;
-}
-
-/* Intensty enhancement section */
-
-.point-controls {
-    background: #f1f5f9;
-    padding: 15px;
-    border-radius: 8px;
-    margin-bottom: 20px;
-}
-.slider-group {
-    margin-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-.slider-group label {
-    font-weight: bold;
-    color: var(--secondary);
-    font-size: 0.9rem;
-}
-.point-btns {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-}
-input[type="range"] {
-    width: 100%;
-    cursor: pointer;
-}
-
-.control-row { display: flex; align-items: center; gap: 15px; }
-.slider-val { min-width: 40px; font-weight: bold; color: var(--primary); }
-
-/* 5 Columns x 4 Rows */
-.grid-5x4 {
+/* The D-PAD */
+.d-pad {
     display: grid;
-    grid-template-columns: repeat(5, 45px);
-    grid-template-rows: repeat(4, 45px);
-    gap: 5px;
+    grid-template-areas: 
+        ". up ."
+        "left . right"
+        ". down .";
+    gap: 8px;
+    justify-content: center;
 }
+#btn-up { grid-area: up; }
+#btn-left { grid-area: left; }
+#btn-right { grid-area: right; }
+#btn-down { grid-area: down; }
 
-.point-btns { margin-top: 15px; display: flex; gap: 8px; flex-wrap: wrap; }
+/* The Transformation Buttons Grid */
+.transform-btns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+.reset-btn { background: #ef4444 !important; }
+.reset-btn:hover { background: #dc2626 !important; }
+.transform-btns .reset-btn { grid-column: span 2; } /* Makes reset stretch across both columns */
+
+.grid-size-2 { grid-template-columns: repeat(2, 40px); }
+.grid-size-3 { grid-template-columns: repeat(3, 40px); }
+.grid-size-4 { grid-template-columns: repeat(4, 40px); }
+.grid-5x4 { grid-template-columns: repeat(5, 40px); grid-template-rows: repeat(4, 40px); }
+
+/* --- SECTION 5: POINT PROCESSING LAB --- */
+.point-controls { background: var(--bg); padding: 20px; border-radius: 8px; margin-bottom: 20px;}
+.slider-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
+.slider-group label { font-weight: bold; color: var(--secondary); font-size: 1rem; }
+
+/* FIXED SLIDERS: Stretched and enlarged for mobile */
+.control-row { 
+    display: flex; 
+    align-items: center; 
+    gap: 15px; 
+    width: 100%; 
+}
+input[type="range"] { 
+    flex: 1; /* Makes the slider take up all available space */
+    height: 35px; /* Thicker touch target */
+    cursor: pointer; 
+}
+.slider-val { 
+    font-weight: bold; 
+    font-size: 1.1rem;
+    min-width: 40px; 
+    text-align: right;
+    color: var(--primary);
+}
+.point-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 15px;}
+
+/* --- SECTION 6: SPATIAL FILTERS LAB --- */
+.spatial-controls { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; background: var(--bg); padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+.filter-selector { display: flex; gap: 10px; flex-wrap: wrap; }
+.filter-selector button { background: var(--secondary); }
+.filter-selector button.active-filter { background: var(--primary); }
+.noise-btn { background: #10b981 !important; }
+.noise-btn:hover { background: #059669 !important; }
+
+.spatial-dashboard { display: flex; gap: 20px; flex-wrap: wrap; margin-bottom: 20px; }
+.kernel-box, .math-box { background: #f8fafc; padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
+.kernel-box { flex: 0 0 auto; text-align: center; }
+.math-box { flex: 1 1 300px; display: flex; flex-direction: column; justify-content: space-between; }
+.math-box h4, .kernel-box h4 { margin-top: 0; color: #334155; border-bottom: 1px solid #cbd5e1; padding-bottom: 5px; margin-bottom: 10px; }
+
+.kernel-grid { display: grid; grid-template-columns: repeat(3, 40px); gap: 4px; justify-content: center; }
+.kernel-cell { height: 40px; display: flex; align-items: center; justify-content: center; background: white; border: 1px solid #94a3b8; font-weight: bold; font-size: 0.85rem; color: #0f172a; }
+
+.math-display { font-family: 'Courier New', Courier, monospace; background: #1e293b; color: #38bdf8; padding: 15px; border-radius: 6px; min-height: 60px; display: flex; align-items: center; font-size: 0.95rem; line-height: 1.5; margin-bottom: 15px; }
+.spatial-actions { display: flex; gap: 10px; flex-wrap: wrap;}
+
+.spatial-comparison { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+.grid-10x10 { grid-template-columns: repeat(10, 35px); grid-template-rows: repeat(10, 35px); }
+.grid-8x8 { grid-template-columns: repeat(8, 35px); grid-template-rows: repeat(8, 35px); background: #f1f5f9; border-color: #94a3b8;}
+
+/* The Sliding Window Highlight (overrides grayscale) */
+.window-highlight {
+    background-color: #fef08a !important; 
+    border: 2px solid #eab308 !important;
+    color: #000 !important;
+    z-index: 10;
+}
+.window-center {
+    background-color: #fde047 !important;
+    font-weight: 900 !important;
+}

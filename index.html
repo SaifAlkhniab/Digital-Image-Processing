@@ -1,170 +1,245 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="title-tag">Digital Image Processing</title>
+    <title>Digital Image Processing Lab</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
-        <div class="lang-switcher">
-            <button onclick="setLanguage('en')">English</button>
-            <button onclick="setLanguage('ar')">العربية</button>
+        <h1 id="main-title">Digital Image Processing Lab</h1>
+        
+        <div class="tab-nav">
+            <button class="tab-btn active" onclick="openView('view-main', this)">10x10 Matrix & Neighbors</button>
+            <button class="tab-btn" onclick="openView('view-geo', this)">Geometric Lab</button>
+            <button class="tab-btn" onclick="openView('view-point', this)">Point Processing Lab</button>
+            <button class="tab-btn" onclick="openView('view-spatial', this)">Spatial Filters Lab</button>
         </div>
 
-        <h1 id="main-title">Digital Image Processing</h1>
-        
-        <section class="setup-section">
-            <h2 id="h-setup">1. Image Matrix (10x10)</h2>
-            <div class="matrix-scroll-wrapper">
-                <div id="matrix-10-container" class="grid-10-with-labels"></div>
-            </div>
-            <div class="matrix-btns">
-                <button id="btn-random" onclick="fillRandom()">Fill Random Values</button>
-                <button id="btn-100" onclick="fill1to100()">Fill 1-100</button>
-            </div>
-        </section>
-
-        <section class="distance-section">
-            <h2 id="h-distance">2. Distance Calculator & Visualizer</h2>
-            <div class="calc-inputs">
-                <div class="point-group">
-                    <span style="color:var(--point-p); font-weight:bold">P(x,y):</span>
-                    <input type="number" id="px" value="2" min="0" max="9">
-                    <input type="number" id="py" value="2" min="0" max="9">
+        <div id="view-main" class="view-section" style="display: block;">
+            <section class="setup-section">
+                <h2 id="h-setup">1. Image Matrix (10x10)</h2>
+                <div class="matrix-scroll-wrapper">
+                    <div id="matrix-10-container" class="grid-10-with-labels"></div>
                 </div>
-                <div class="point-group">
-                    <span style="color:var(--point-q); font-weight:bold">Q(x,y):</span>
-                    <input type="number" id="qx" value="5" min="0" max="9">
-                    <input type="number" id="qy" value="4" min="0" max="9">
+                <div class="matrix-btns">
+                    <button id="btn-random" onclick="fillRandom()">Fill Random Values</button>
+                    <button id="btn-100" onclick="fill1to100()">Fill 1-100</button>
+                </div>
+            </section>
+
+            <section class="distance-section">
+                <h2 id="h-distance">2. Distance Calculator & Visualizer</h2>
+                <div class="calc-inputs">
+                    <div class="point-input">
+                        <label>P (r, c):</label>
+                        <input type="number" id="p-r" min="0" max="9" value="4">
+                        <input type="number" id="p-c" min="0" max="9" value="4">
+                    </div>
+                    <div class="point-input">
+                        <label>Q (r, c):</label>
+                        <input type="number" id="q-r" min="0" max="9" value="7">
+                        <input type="number" id="q-c" min="0" max="9" value="8">
+                    </div>
                 </div>
                 <button id="btn-calc" onclick="calculateDistances()">Calculate & Visualize</button>
-            </div>
-            
-            <div id="results" class="results-box">
-                <div class="res-item">
-                    <p id="label-city">City-block (D4): <span id="res-city">--</span></p>
-                    <small id="math-city" class="math-explain"></small>
+                <div class="results">
+                    <div class="result-row">
+                        <span class="formula-label">City-block (D4):</span>
+                        <code class="formula-text">|x₁ - x₂| + |y₁ - y₂|</code>
+                        <span class="equals">=</span>
+                        <span id="res-d4" class="res-val">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="formula-label">Chessboard (D8):</span>
+                        <code class="formula-text">max(|x₁ - x₂|, |y₁ - y₂|)</code>
+                        <span class="equals">=</span>
+                        <span id="res-d8" class="res-val">-</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="formula-label">Euclidean (De):</span>
+                        <code class="formula-text">√((x₁ - x₂)² + (y₁ - y₂)²)</code>
+                        <span class="equals">=</span>
+                        <span id="res-de" class="res-val">-</span>
+                    </div>
                 </div>
-                <div class="res-item">
-                    <p id="label-chess">Chessboard (D8): <span id="res-chess">--</span></p>
-                    <small id="math-chess" class="math-explain"></small>
-                </div>
-                <div class="res-item">
-                    <p id="label-eucl">Euclidean (De): <span id="res-eucl">--</span></p>
-                    <small id="math-eucl" class="math-explain"></small>
-                </div>
-            </div>
-        </section>
+            </section>
 
-        <section class="neighbors-section">
-            <h2 id="h-neighbors">3. Neighbors Analysis</h2>
-            <p id="neighbor-desc">Select a type to see neighbors of Point P.</p>
-            <div class="neighbor-controls">
-                <button onclick="highlightNeighbors(4)">4-Neighbors (A)</button>
-                <button onclick="highlightNeighbors('diag')">Diagonal (B)</button>
-                <button onclick="highlightNeighbors(8)">8-Neighbors (C)</button>
-                <button class="reset-btn" onclick="clearHighlights()">Clear All</button>
-            </div>
-        </section>
+            <section class="neighbors-section">
+                <h2 id="h-neighbors">3. Neighbors Analysis</h2>
+                <p id="neighbor-desc" class="desc">Select a type to see neighbors of Point P.</p>
+                <div class="neighbor-btns">
+                    <button onclick="showNeighbors('N4')">N4(P) - 4 Neighbors</button>
+                    <button onclick="showNeighbors('ND')">ND(P) - Diagonal</button>
+                    <button onclick="showNeighbors('N8')">N8(P) - 8 Neighbors</button>
+                </div>
+            </section>
+        </div>
 
-        <section class="lab-section">
-        <section class="lab-section">
-            <h2 id="h-lab">4. Geometric Transformation</h2>
-            <div class="lab-setup">
-                <div class="size-selector">
-                    <button id="btn-2x2" onclick="initLabMatrix(2)">2x2</button>
-                    <button id="btn-3x3" onclick="initLabMatrix(3)">3x3</button>
-                    <button id="btn-4x4" onclick="initLabMatrix(4)">4x4</button>
+        <div id="view-geo" class="view-section" style="display: none;">
+            <section class="geo-section">
+                <h2 id="h-lab">4. Geometric Transformation Lab</h2>
+                <div class="geo-controls">
+                    <div class="geo-size-btns">
+                        <button id="btn-2x2" onclick="initLabMatrix(2)">2x2</button>
+                        <button id="btn-3x3" class="active-size" onclick="initLabMatrix(3)">3x3</button>
+                        <button id="btn-4x4" onclick="initLabMatrix(4)">4x4</button>
+                    </div>
+                    <div class="geo-fill-btns">
+                        <button id="btn-random-lab" onclick="fillLabData('random')">Fill Random</button>
+                        <button id="btn-seq-lab" onclick="fillLabData('seq')">Fill 1, 2, 3...</button>
+                    </div>
                 </div>
-                <div class="fill-controls">
-                    <button id="btn-random-lab" class="reset-btn" onclick="fillLab('random')">Fill Random</button>
-                    <button id="btn-seq-lab" class="reset-btn" onclick="fillLab('seq')">Fill 1, 2, 3...</button>
-                </div>
-            </div>
 
-            <div class="comparison-container">
-                <div class="matrix-box">
-                    <h4 id="label-original">Original</h4>
-                    <div id="lab-original-grid" class="lab-grid"></div>
+                <div class="comparison-container">
+                    <div class="matrix-box">
+                        <h4 id="label-original">Original</h4>
+                        <div id="lab-orig-grid" class="lab-grid"></div>
+                    </div>
+                    <div class="transform-arrow">➔</div>
+                    <div class="matrix-box">
+                        <h4 id="label-result">Result</h4>
+                        <div id="lab-result-grid" class="lab-grid"></div>
+                    </div>
                 </div>
-                <div class="transform-arrow">➔</div>
-                <div class="matrix-box">
-                    <h4 id="label-result">Result</h4>
-                    <div id="lab-result-grid" class="lab-grid"></div>
-                </div>
-            </div>
 
-            <div class="geo-ops">
-                <div class="op-group">
-                    <button id="btn-up" onclick="applyOp('up')">↑ Up</button>
-                    <div class="side-btns">
+                <div class="geo-ops">
+                    <div class="d-pad">
+                        <button id="btn-up" onclick="applyOp('up')">↑ Up</button>
                         <button id="btn-left" onclick="applyOp('left')">← Left</button>
                         <button id="btn-right" onclick="applyOp('right')">Right →</button>
+                        <button id="btn-down" onclick="applyOp('down')">↓ Down</button>
                     </div>
-                    <button id="btn-down" onclick="applyOp('down')">↓ Down</button>
+                    
+                    <div class="transform-btns">
+                        <button id="btn-cw" onclick="applyOp('CW')">↻ CW</button>
+                        <button id="btn-ccw" onclick="applyOp('CCW')">↺ CCW</button>
+                        <button id="btn-flip-h" onclick="applyOp('H')">↔ Flip H</button>
+                        <button id="btn-flip-v" onclick="applyOp('V')">↕ Flip V</button>
+                        <button id="btn-reset-res" class="reset-btn" onclick="resetResult()">Reset Result</button>
+                    </div>
                 </div>
+            </section>
+        </div>
+
+        <div id="view-point" class="view-section" style="display: none;">
+            <section class="point-processing-section">
+                <h2 id="h-point">5. Point Processing (Intensity Transformations)</h2>
+                <div class="point-controls">
+                    <div class="slider-group">
+                        <label id="label-bright">Brightness: s = r + b</label>
+                        <div class="control-row">
+                            <input type="range" id="input-bright" min="-255" max="255" value="0" oninput="applyPointProcessing()">
+                            <span id="val-bright" class="slider-val">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="slider-group">
+                        <label id="label-contrast">Contrast: s = a · r</label>
+                        <div class="control-row">
+                            <input type="range" id="input-contrast" min="0" max="10" step="0.1" value="1" oninput="applyPointProcessing()">
+                            <span id="val-contrast" class="slider-val">1.0</span>
+                        </div>
+                    </div>
+
+                    <div class="slider-group">
+                        <label id="label-thresh">Threshold: s = 255 if r > T else 0</label>
+                        <div class="control-row">
+                            <input type="range" id="input-thresh" min="0" max="255" value="128" oninput="applyPointProcessing()">
+                            <span id="val-thresh" class="slider-val">128</span>
+                        </div>
+                    </div>
+
+                    <div class="point-btns">
+                        <button id="btn-fill-random-point" onclick="fillPointLab('random')">Fill Random (0-255)</button>
+                        <button id="btn-fill-seq-point" onclick="fillPointLab('seq')">Fill Sequential</button>
+                        <button id="btn-negative" onclick="applyNegative()">s = 255 - r (Negative)</button>
+                        <button id="btn-reset-point" class="reset-btn" onclick="resetPointLab()">Reset</button>
+                    </div>
+                </div>
+
+                <div class="comparison-container">
+                    <div class="matrix-box">
+                        <h4 id="label-point-orig">Input (r)</h4>
+                        <div id="point-orig-grid" class="lab-grid grid-5x4"></div>
+                    </div>
+                    <div class="transform-arrow">➔</div>
+                    <div class="matrix-box">
+                        <h4 id="label-point-res">Output (s)</h4>
+                        <div id="point-res-grid" class="lab-grid grid-5x4"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="view-spatial" class="view-section" style="display: none;">
+            <section class="spatial-section">
+                <h2 id="h-spatial">6. Spatial Filtering Lab (3x3 Sliding Window)</h2>
+                <p class="desc">Watch how the 3x3 filter moves across the 10x10 source to generate an 8x8 output. Results are automatically clamped between 0 and 255.</p>
                 
-                <div class="op-group row">
-                    <button id="btn-cw" onclick="applyOp('CW')">↻ Rotate CW</button>
-                    <button id="btn-ccw" onclick="applyOp('CCW')">↺ Rotate CCW</button>
-                    <button id="btn-flip-h" onclick="applyOp('H')">↔ Flip Horizontal</button>
-                    <button id="btn-flip-v" onclick="applyOp('V')">↕ Flip Vertical</button>
-                    <button id="btn-reset-res" class="reset-btn" onclick="resetResult()">Reset Result</button>
-                </div>
-            </div>
-        </section>
-        
-        <section class="point-processing-section">
-            <h2 id="h-point">5. Point Processing (Intensity Transformations)</h2>
-            <div class="point-controls">
-                <div class="slider-group">
-                    <label id="label-bright">Brightness: S = r + b</label>
-                    <div class="control-row">
-                        <input type="range" id="input-bright" min="-255" max="255" value="0" oninput="applyPointProcessing()">
-                        <span id="val-bright" class="slider-val">0</span>
+                <div class="spatial-controls">
+                    <div class="filter-selector">
+                        <button id="btn-mean" class="active-filter" onclick="setSpatialFilter('mean')">Mean (Smoothing)</button>
+                        <button id="btn-laplacian" onclick="setSpatialFilter('laplacian')">Laplacian (Sharpening)</button>
+                        <button id="btn-median" onclick="setSpatialFilter('median')">Median (Noise Removal)</button>
                     </div>
-                </div>
-                
-                <div class="slider-group">
-                    <label id="label-contrast">Contrast: S = c * r</label>
-                    <div class="control-row">
-                        <input type="range" id="input-contrast" min="0" max="10" step="0.1" value="1" oninput="applyPointProcessing()">
-                        <span id="val-contrast" class="slider-val">1.0</span>
+                    
+                    <div id="laplacian-settings" style="display: none; align-items: center; gap: 10px; background: #e2e8f0; padding: 5px 10px; border-radius: 6px;">
+                        <label style="font-weight: bold; font-size: 0.9rem;">Center Weight:</label>
+                        <input type="number" id="lap-core" value="4" min="1" max="9" style="width: 50px;" onchange="updateLaplacianCore()">
                     </div>
+
+                    <button id="btn-noise" class="noise-btn" onclick="addSaltAndPepper()">Add Salt & Pepper</button>
                 </div>
 
-                <div class="slider-group">
-                    <label id="label-thresh">Threshold: S = 255 { if } r > T { else } S = 0</label>
-                    <div class="control-row">
-                        <input type="range" id="input-thresh" min="0" max="255" value="128" oninput="applyPointProcessing()">
-                        <span id="val-thresh" class="slider-val">128</span>
+                <div class="spatial-dashboard">
+                    <div class="kernel-box">
+                        <h4>Current 3x3 Filter</h4>
+                        <div id="kernel-grid" class="kernel-grid"></div>
+                    </div>
+                    
+                    <div class="math-box">
+                        <h4>Step-by-Step Calculation</h4>
+                        <div class="math-display" id="spatial-math-display">
+                            Click "Calculate Next Pixel" to start sliding the window.
+                        </div>
+                        <div class="spatial-actions">
+                            <button id="btn-step" onclick="stepSpatialFilter()">Calculate Next Pixel ➔</button>
+                            <button id="btn-reset-spatial" class="reset-btn" onclick="resetSpatial()">Reset Lab</button>
+                        </div>
                     </div>
                 </div>
 
-                <div class="point-btns">
-                    <button id="btn-fill-random-point" onclick="fillPointLab('random')">Fill Random (0-255)</button>
-                    <button id="btn-fill-seq-point" onclick="fillPointLab('seq')">Fill Sequential</button>
-                    <button id="btn-negative" onclick="applyNegative()">S = 255 - r (Negative)</button>
-                    <button id="btn-reset-point" class="reset-btn" onclick="resetPointLab()">Reset</button>
+                <div class="spatial-comparison">
+                    <div class="matrix-box">
+                        <h4>Source Matrix (10x10)</h4>
+                        <div class="matrix-btns" style="margin-bottom: 10px; justify-content: center;">
+                            <button onclick="fillRandom()">New Random Source</button>
+                            <button onclick="fill1to100()">Fill 1-100</button>
+                        </div>
+                        <div class="matrix-scroll-wrapper">
+                            <div id="spatial-input-grid" class="lab-grid grid-10x10"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="transform-arrow" style="display: flex; align-items: center;">➔</div>
+                    
+                    <div class="matrix-box">
+                        <h4>Output Matrix (8x8)</h4>
+                        <div class="matrix-btns" style="margin-bottom: 10px; visibility: hidden;">
+                            <button>Spacer</button>
+                        </div>
+                        <div class="matrix-scroll-wrapper">
+                            <div id="spatial-output-grid" class="lab-grid grid-8x8"></div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </section>
+        </div>
 
-            <div class="comparison-container">
-                <div class="matrix-box">
-                    <h4 id="label-point-orig">Input (r)</h4>
-                    <div id="point-orig-grid" class="lab-grid grid-5x4"></div>
-                </div>
-                <div class="transform-arrow">➔</div>
-                <div class="matrix-box">
-                    <h4 id="label-point-res">Output (s)</h4>
-                    <div id="point-res-grid" class="lab-grid grid-5x4"></div>
-                </div>
-            </div>
-        </section>
     </div>
-
+    
     <script src="script.js"></script>
 </body>
 </html>
